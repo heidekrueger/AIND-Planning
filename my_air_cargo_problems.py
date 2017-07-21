@@ -222,7 +222,16 @@ class AirCargoProblem(Problem):
         executed.
         """
         # TODO implement (see Russell-Norvig Ed-3 10.2.3  or Russell-Norvig Ed-2 11.2)
-        count = 0
+        
+        # Each action in the cargo actions profile adds exactly one possibly desirable state,
+        # and each possibly desirable state is set by exactyly one action. (they are therefore disjunct)
+        # We thus simply need to count the number of unfullfilled goals:
+
+        # get currently true sentences
+        pos_state = decode_state(node.state, self.state_map).pos
+
+        count = len(set(self.goal) - set(pos_state))
+        
         return count
 
 

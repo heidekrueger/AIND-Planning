@@ -28,7 +28,7 @@ Instead, you will implement domain-independent heuristics.
 
 ## Project Details
 ### Part 1 - Planning problems
-#### READ: Stuart Russel and Peter Norvig text:
+#### _completed_: READ: Stuart Russel and Peter Norvig text:
 
 "Artificial Intelligence: A Modern Approach" 3rd edition chapter 10 *or* 2nd edition Chapter 11 on Planning, available [on the AIMA book site](http://aima.cs.berkeley.edu/2nd-ed/newchap11.pdf) sections: 
 
@@ -122,7 +122,7 @@ classes, and the search methods in the AIMA library.
 
 - *Planning Graph*
 
-#### TODO: Implement heuristic method in `my_air_cargo_problems.py`
+#### _completed_: Implement heuristic method in `my_air_cargo_problems.py`
 - `AirCargoProblem.h_ignore_preconditions` method
 
 #### TODO: Implement a Planning Graph with automatic heuristics in `my_planning_graph.py`

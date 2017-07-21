@@ -10,16 +10,16 @@ Instead, you will implement domain-independent heuristics.
 ![Progression air cargo search](images/Progression.PNG)
 
 - Part 1 - Planning problems:
-	- READ: applicable portions of the Russel/Norvig AIMA text
+	- Completed: applicable portions of the Russel/Norvig AIMA text
 	- GIVEN: problems defined in classical PDDL (Planning Domain Definition Language)
-	- TODO: Implement the Python methods and functions as marked in `my_air_cargo_problems.py`
-	- TODO: Experiment and document metrics
+	- Completed: Implement the Python methods and functions as marked in `my_air_cargo_problems.py`
+	- (Completed, pending write-up): Experiment and document metrics
 - Part 2 - Domain-independent heuristics:
 	- READ: applicable portions of the Russel/Norvig AIMA text
 	- TODO: Implement relaxed problem heuristic in `my_air_cargo_problems.py`
 	- TODO: Implement Planning Graph and automatic heuristic in `my_planning_graph.py`
 	- TODO: Experiment and document metrics
-- Part 3 - Written Analysis
+- Part 3 - TODO: Written Analysis
 
 ## Environment requirements
 - Python 3.4 or higher
@@ -80,12 +80,13 @@ Init(At(C1, SFO) ∧ At(C2, JFK) ∧ At(C3, ATL) ∧ At(C4, ORD)
 Goal(At(C1, JFK) ∧ At(C3, JFK) ∧ At(C2, SFO) ∧ At(C4, SFO))
 ```
 
-#### TODO: Implement methods and functions in `my_air_cargo_problems.py`
+#### Completed: Implement methods and functions in `my_air_cargo_problems.py`
 - `AirCargoProblem.get_actions` method including `load_actions` and `unload_actions` sub-functions
 - `AirCargoProblem.actions` method
 - `AirCargoProblem.result` method
 - `air_cargo_p2` function
 - `air_cargo_p3` function
+
 
 #### TODO: Experiment and document metrics for non-heuristic planning solution searches
 * Run uninformed planning searches for `air_cargo_p1`, `air_cargo_p2`, and `air_cargo_p3`; provide metrics on number of node expansions required, number of goal tests, time elapsed, and optimality of solution for each search algorithm. Include the result of at least three of these searches, including breadth-first and depth-first, in your write-up (`breadth_first_search` and `depth_first_graph_search`). 

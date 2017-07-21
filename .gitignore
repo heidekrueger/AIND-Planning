@@ -6,3 +6,8 @@ __pycache__
 .idea/
 tests/.cache/v/cache/lastfailed
 .cache/v/cache/lastfailed
+*.sublime-project
+*.sublime-workspace
+*.synctex.gz
+*.aux
+*.log

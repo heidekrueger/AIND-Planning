@@ -550,6 +550,7 @@ def Stack():
 from collections import deque
 
 # Alternative FIFOQueue implementation from chris gerhard
+# https://discussions.udacity.com/t/uniform-cost-search-faster-than-breadth-first/324045/2
 
 class FIFOQueue(Queue):
     """A First-In-First-Out Queue."""

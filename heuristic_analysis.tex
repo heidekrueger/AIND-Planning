@@ -76,6 +76,99 @@
 \maketitle
 
 \todo[inline]{Let's just cite \cite{russell2009artificial}.}
+
+
+In this analysis, we will compare and contrast different search algorithms and their performance on the project problems.
+
+\paragraph{Optimal Plans for the Problems}
+
+The optimal plan-lengths for Problems 1,2 and 3 are given by 6, 9 and 12, respectively. The (non-unique!) optimal plans for each problem are detailed in Table \ref{table-optimal-plans}.
+
+\begin{table}[h]
+\centering
+\caption{Optimal Plans found for each of the problems.}
+\label{table-optimal-plans}
+	\begin{tabular}{l||l|l|l}
+	Problem      & P1     & P2     & P3      \\ \hline
+	Optimal Plan & \begin{tabular}[c]{@{}l@{}}Load(C1, P1, SFO)\\ Load(C2, P2, JFK)\\ Fly(P2, JFK, SFO)\\ Unload(C2, P2, SFO)\\ Fly(P1, SFO, JFK)\\ Unload(C1, P1, JFK)\end{tabular} & \begin{tabular}[c]{@{}l@{}}Load(C1, P1, SFO)\\ Load(C2, P2, JFK)\\ Load(C3, P3, ATL)\\ Fly(P2, JFK, SFO)\\ Unload(C2, P2, SFO)\\ Fly(P1, SFO, JFK)\\ Unload(C1, P1, JFK)\\ Fly(P3, ATL, SFO)\\ Unload(C3, P3, SFO)\end{tabular} & \begin{tabular}[c]{@{}l@{}}Load(C1, P1, SFO)\\ Load(C2, P2, JFK)\\ Fly(P1, SFO, ATL)\\ Load(C3, P1, ATL)\\ Fly(P2, JFK, ORD)\\ Load(C4, P2, ORD)\\ Fly(P1, ATL, JFK)\\ Unload(C1, P1, JFK)\\ Fly(P2, ORD, SFO)\\ Unload(C2, P2, SFO)\\ Unload(C3, P1, JFK)\\ Unload(C4, P2, SFO)\end{tabular} \\ \hline
+	Length       & 6     & 9         & 12                                                                     
+	\end{tabular}
+\end{table}
+
+
+
+
+
+\paragraph{Comparison of non-heuristic search algorithms}
+
+\todo[inline]{Compare and contrast non-heuristic search result metrics (optimality, time elapsed, number of node expansions) for Problems 1,2, and 3. Include breadth-first, depth-first, and at least one other uninformed non-heuristic search in your comparison; Your third choice of non-heuristic search may be skipped for Problem 3 if it takes longer than 10 minutes to run, but a note in this case should be included.}
+
+\paragraph{Comparison of $A^*$ search heuristics}
+
+\todo[inline]{Compare and contrast heuristic search result metrics using A* with the "ignore preconditions" and "level-sum" heuristics for Problems 1, 2, and 3.
+What was the best heuristic used in these problems? Was it better than non-heuristic search planning methods for all problems? Why or why not?
+
+The report explains the reason for the observed results using at least one appropriate justification from the video lessons or from outside resources (e.g., Norvig and Russell’s textbook).}
+
+\begin{table}[h]
+\centering
+\caption{Performance on Problem 1.}
+\label{table-performance1}
+\begin{tabular}{llrrrrr}
+   & \multicolumn{1}{l|}{}                                           & Expansions & Goal Tests & New Nodes   & Time (s)      & Path Length \\ \hline
+1  & \multicolumn{1}{l|}{breadth\_first\_search}                     & 43         & 56         & 180         & 0.04          & \textbf{6}  \\
+2  & \multicolumn{1}{l|}{breadth\_first\_tree\_search}               & 1458       & 1459       & 5960        & 1.27          & \textbf{6}  \\
+3  & \multicolumn{1}{l|}{depth\_first\_graph\_search}                & 21         & 22         & 84          & 0.02          & 20          \\
+4  & \multicolumn{1}{l|}{depth\_limited\_search}                     & 101        & 271        & 414         & 0.12          & 50          \\
+5  & \multicolumn{1}{l|}{uniform\_cost\_search}                      & 55         & 57         & 224         & 0.05          & \textbf{6}  \\
+6  & \multicolumn{1}{l|}{recursive\_best\_first\_search, h1}   & 442        & 4230       & 17023       & 3.62          & \textbf{6}  \\
+7  & \multicolumn{1}{l|}{greedy\_best\_first\_graph\_search, h1} & \textbf{7} & \textbf{9} & \textbf{28} & \textbf{0.01} & \textbf{6}  \\
+8  & \multicolumn{1}{l|}{astar\_search, h\_1}                    & 55         & 57         & 224         & 0.04          & \textbf{6}  \\
+9  & \multicolumn{1}{l|}{astar\_search, h\_ignore\_preconds}     & 41         & 43         & 170         & 0.03          & \textbf{6}  \\
+10 & \multicolumn{1}{l|}{astar\_search, h\_pg\_levelsum}        & 11         & 13         & 50          & 1.00          & \textbf{6} 
+\end{tabular}
+
+\bigskip
+\bigskip
+
+\caption{Performance on Problem 2}
+\label{table-performance2}
+\begin{tabular}{ll|rrrrr}
+   &                                            & \multicolumn{1}{l}{Expansions} & \multicolumn{1}{l}{Goal Tests} & \multicolumn{1}{l}{New Nodes} & \multicolumn{1}{l}{Time (s)} & \multicolumn{1}{l}{Path Length} \\ \cline{2-7} 
+1  & breadth\_first\_search                     & 3343                           & 4609                           & 30509                         & 11.41                              & \textbf{9}                      \\
+2  & breadth\_first\_tree\_search               & --                             & --                             & --                            & timed out                          & --                              \\
+3  & depth\_first\_graph\_search                & 624                            & 625                            & 5602                          & 4.64                               & 619                             \\
+4  & depth\_limited\_search                     & --                             & --                             & --                            & timed out                          & --                              \\
+5  & uniform\_cost\_search                      & 4604                           & 4606                           & 41828                         & 14.59                              & 9                               \\
+6  & recursive\_best\_first\_search, h1   & --                             & --                             & --                            & timed out                          & --                              \\
+7  & greedy\_best\_first\_graph\_search, h1 & 454                            & 456                            & 4087                          & \textbf{1.37}                      & 19                              \\
+8  & astar\_search, h1                    & 4604                           & 4606                           & 41828                         & 13.92                              & \textbf{9}                      \\
+9  & astar\_search, h\_ignore\_preconds     & 1310                           & 1312                           & 11979                         & 4.02                               & \textbf{9}                      \\
+10 & astar\_search, h\_pg\_levelsum         & \textbf{74}                    & \textbf{76}                    & \textbf{720}                  & 81.99                              & \textbf{9}                     
+\end{tabular}
+
+\bigskip
+\bigskip
+
+\caption{Performance on Problem 3}
+\label{table-performance 3}
+\begin{tabular}{ll|rrrrr}
+   &                                        & \multicolumn{1}{l}{Expansions} & \multicolumn{1}{l}{Goal Tests} & \multicolumn{1}{l}{New Nodes} & \multicolumn{1}{l}{Time (s)} & \multicolumn{1}{l}{Path Length} \\ \hline
+1  & breadth\_first\_search                 & 14663                          & 18098                          & 129631                        & 51.68                        & \textbf{12}                     \\
+2  & breadth\_first\_tree\_search           & --                             & --                             & --                            & timed out                    & --                              \\
+3  & depth\_first\_graph\_search            & 408                            & 409                            & 3364                          & \textbf{2.36}                & 392                             \\
+4  & depth\_limited\_search                 & --                             & --                             & --                            & timed out                    & --                              \\
+5  & uniform\_cost\_search                  & 16963                          & 16965                          & 149136                        & 63.25                        & \textbf{12}                     \\
+6  & recursive\_best\_first\_search, h1     & --                             & --                             & --                            & timed out                    & --                              \\
+7  & greedy\_best\_first\_graph\_search, h1 & 3773                           & 3775                           & 33127                         & 14.97                        & 30                              \\
+8  & astar\_search, h1                      & 16963                          & 16965                          & 149136                        & 63.61                        & \textbf{12}                     \\
+9  & astar\_search, h\_ignore\_preconds     & 4443                           & 4445                           & 39217                         & 17.77                        & \textbf{12}                     \\
+10 & astar\_search, h\_pg\_levelsum         & \textbf{228}                   & \textbf{230}                   & \textbf{2072}                 & 323.14                       & 13                             
+\end{tabular}
+\end{table}
+
+\textcolor{white}{test}
+
 % \nocite{*}
 %\bibliographystyle{apalike}%amsalpha
 \addcontentsline{toc}{chapter}{References} 

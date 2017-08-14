@@ -1,0 +1,114 @@
+\documentclass{article}
+\usepackage[utf8x]{inputenc}
+\title{AIND Research Review: History of Planning Search}
+\author{Stefan Heidekrüger}
+
+
+%\usepackage
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amstext}
+%\usepackage{graphicx}
+%\usepackage{xfrac}
+\usepackage[left=1in, right=1in, top=1in, bottom=1in]{geometry}
+%\usepackage{hyperref}
+%\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+%\usepackage{dsfont}
+%\usepackage{courier}
+%\usepackage{color}
+\usepackage{amsthm}
+%\usepackage[super]{nth}
+\renewcommand{\qed}{\unskip\nobreak\quad\qedsymbol} %fixes position of \qed
+\usepackage{natbib}
+\bibliographystyle{abbrvnat}
+\setcitestyle{authoryear,open={(},close={)}}
+\usepackage{rotating}
+\usepackage{enumitem}
+\usepackage{slashbox}
+\usepackage[]{nomencl}
+\usepackage{comment}
+\usepackage[gen]{eurosym}
+\usepackage{caption}
+\usepackage{chngcntr}
+
+\usepackage{xargs}                      % Use more than one optional parameter in a new commands
+\usepackage[pdftex,dvipsnames]{xcolor}  % Coloured text etc.
+
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+
+\newcommandx{\notsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+%\newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
+\newcommandx{\info}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
+\newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
+%\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+
+\usepackage{titlesec}
+\setcounter{secnumdepth}{3}
+
+\titleformat{\paragraph}
+{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+\newcommand\inv[1]{#1^{-1}}
+\newcommand\expect[2][]{\mathbb E_{#1}\left[#2 \right]}
+\newcommand\card{\texttt{\#}}
+
+%Define Theorem Environments
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}%[chapter]
+\newtheorem{propos}[thm]{Proposition}
+\newtheorem{lemma}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[]
+\newtheorem{ass}{Assumption}[]
+\theoremstyle{remark}
+\newtheorem*{exmpl}{Example}
+\newtheorem*{remark}{Remark}
+\newtheorem*{remarks}{Remarks}
+
+
+\begin{document}
+\maketitle
+
+In this document we'll explore some of the milestones in the domain of Planning Search as well as the general evolution of the field. 
+
+\paragraph{The beginning: STRIPS}
+In a retroperspective relased some 25 years after the fact, \cite{fikes1993strips}\textemdash the original authors of the STRIPS sytem\textemdash lay out inception of the field during the 1960s and 1970s. They not that a series of robotics experiments sparked the development of many of the early planning and searching tools, including the $A^*$ algorithm and STRIPS, which the authors describe as the \emph{"seminal framework for attacking
+the 'classical planning problem'"}, i.e. involving state-space search or modeling the entire system by a well defined set of possible states and actions.
+STRIPS first introduced the notion of state space modeled planning that we used in class, also called the "STRIPS-assumption":
+\begin{itemize}
+	\item State is represented by a set of \emph{sentences} that are true about the system
+	\item Each action profile is reperesented by sets of \emph{preconditions}, \emph{deletions} and \emph{additions} of sentences.
+	\item An action can only be executed if its preconditions are fulfilled. In that case, the action's additions will be added to the system state and its deletions will be removed.
+\end{itemize}
+
+Planning was then performed using search in this state space, using heuristic algorithms such as $A^*$. In its applications, STRIPS also employed an \emph{execution monitor} system: Often the actions and state-model coudln't adequately represent reality: The resulting state after an action didn't correspond to reality. In this case the system would infer the real state from sensors and replan.
+
+STRIPS mainly influenced the field by its modeling language, which has become a staple of planning research \citep[Chapter 10.6]{russell2009artificial}.
+
+\paragraph{Beyond State Space Search}
+
+Starting in the late 70s, direct state space search started to fall out of fashion, with more attention being given to approaches such as \emph{linear planning}, \emph{interleaving} and graph-based models such as \emph{task networks} \citep[Chapter 10.3]{russell2009artificial}. \cite{weld1999recent} gives a write up of this period in AI planning, which can be exemplified by the GRAPHPLAN system, an approach very similar to that of the Planning Graph seen in the AIND lectures. As opposed to direct State Space search, a planning graph is built up level-by-level before the actual search, alternating between nodes of literals (describing the possible state at that level) and possible \emph{action nodes}. Of utmost importance for the efficiency of these methods are the inclusions of \emph{mutex} relations, which specify that at each level, several actions or literals will be mutually exclusive. This in turn significantly reduces the dimensionality of the search space and leads to performance improvements.
+
+Another approach popular in this period is reformulating the planning problem as a conjunctive normal state SAT formula and then using SAT solvers to come up with a plan. \citep[p. 111f]{weld1999recent}
+
+\paragraph{Resurgence of State Space Search}
+
+Since the late 1990s, there has been a resurgence in state space search algorithms, fueled by the first use of the "ignore-delete-list" heuristic. \citep[Ch. 10.3]{russell2009artificial}. This heuristic, that considers distances to the goal by ignoring "negative" effects of actions proved superior to those heuristics used in previous decades and lead to state space solving algorithms that were much faster than earlier versions.
+At the same time, there was more research being conducted on the theoretical properties and complexities of several forms of planning problems, many of which were proven to be NP-hard. \cite{hoffmann2005ignoring} conducts an in-depth survey showing that depending on domain and thus state-space and planning-graph topology, either graph-planning or state-space search approaches can be seen as superior.
+
+\paragraph{Current Research}
+
+As in many other fields of AI, there have been recent advances and new approaches made possible by the introduction of Deep Learning. \cite{deepmindblog} introduces two recent papers that use Neural Networks to give a planning agent "imagination" for its internal model representation: In one of these papers, \cite{pascanu2017learning}, the authors in a sense consider planning as a bandit-problem with a trade-off between exploration and exploitation: The specification of the state-space and results of possible actions are not explicitly given to the agent. Instead, these are inferred through executing actions and observing their results. The "memory" built in this way can then be used to construct an internal state space model of the agent, which in turn the agent can use to "imagine" the results of possible future actions and plan ahead. In the paper, the agent has been trained using reinforcement learning on an arcade-style video game where the agent is tasked with piloting a space ship to a certain destination, having to use special actions such as weapons enroute. 
+
+\nocite{*}
+%\bibliographystyle{apalike}%amsalpha
+\addcontentsline{toc}{chapter}{References} 
+\bibliography{references}
+
+\end{document}

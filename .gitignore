@@ -11,3 +11,5 @@ tests/.cache/v/cache/lastfailed
 *.synctex.gz
 *.aux
 *.log
+*.blg
+*.bbl

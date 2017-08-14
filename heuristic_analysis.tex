@@ -75,9 +75,6 @@
 \begin{document}
 \maketitle
 
-\todo[inline]{Let's just cite \cite{russell2009artificial}.}
-
-
 In this analysis, we will compare and contrast different search algorithms and their performance on the project problems.
 
 \paragraph{Optimal Plans for the Problems}
@@ -101,14 +98,12 @@ The optimal plan-lengths for Problems 1,2 and 3 are given by 6, 9 and 12, respec
 
 \paragraph{Comparison of non-heuristic search algorithms}
 
-\todo[inline]{Compare and contrast non-heuristic search result metrics (optimality, time elapsed, number of node expansions) for Problems 1,2, and 3. Include breadth-first, depth-first, and at least one other uninformed non-heuristic search in your comparison; Your third choice of non-heuristic search may be skipped for Problem 3 if it takes longer than 10 minutes to run, but a note in this case should be included.}
+In this section we will compare the performance of the uninformed algorithms used, in particular Breadth First Search (BFS), Depth First Search (DFS) and Uniform Cost Search (UCS). In our analysis, we do not consider the performance of Breadth First Tree Search and Depth Limited Search, as these timed out on our software for Problems P2 and P3 (i.e. runtime over 10 minutes).
 
-\paragraph{Comparison of $A^*$ search heuristics}
+By design, BFS and UCS are guaranteed to always find an optimal solution to the problem (as long as a solution exists and the algorithm terminates, compare \citet[Ch. 3.4]{russell2009artificial}). In fact, each step in our plan is associated with a single cost unit, thus BFS and UCS are virtually equivalent in our case, except that UCS has a more "generous" policy towards extending the frontier. This fact explains that in practice, BFS expanded around 15\% - 30\% fewer nodes and performed somewhat faster than UCS (40ms vs 50ms for P1, 11.41 vs 14.59s for P2, 51.68 vs 63.25 seconds for P3).\footnote{For our experiments, we used a faster implementation of the FIFO-Queue in BFS than the one provided, compare \cite{fifoForumPost}.}
 
-\todo[inline]{Compare and contrast heuristic search result metrics using A* with the "ignore preconditions" and "level-sum" heuristics for Problems 1, 2, and 3.
-What was the best heuristic used in these problems? Was it better than non-heuristic search planning methods for all problems? Why or why not?
+While depth first search, on the other hand has no guarantee to find an optimal solution, it was much faster than the other algorithms at the task of finding \emph{any} solutions. In fact, it found an optimal solution to P3 in $2.36$ seconds, i.e. less than $5\%$ of the runtime of BFS. Albeit the solutions found by DFS may be very suboptimal, checking weather a solution exists may sometimes be advantageous to waiting longer for the optimal solution. For detailed comparison of the result, see Tables \ref{table-performance1}, \ref{table-performance2} and \ref{table-performance 3}. 
 
-The report explains the reason for the observed results using at least one appropriate justification from the video lessons or from outside resources (e.g., Norvig and Russell’s textbook).}
 
 \begin{table}[h]
 \centering
@@ -167,7 +162,18 @@ The report explains the reason for the observed results using at least one appro
 \end{tabular}
 \end{table}
 
-\textcolor{white}{test}
+
+\paragraph{Comparison of $A^*$ search heuristics}
+
+For $A^*$-search, we considered three different heuristics:
+\begin{enumerate}
+	\item The \textbf{pseudo-heuristic "H1"}, which returns constant cost. As such $A^*$-search with H1 is equivalent to UCS and (almost) equivalent to BFS. As we would expect, we see the exact same number of Node Expansions as in UCS and very similar time-performance.
+	\item The \textbf{"ignore preconditions"} heuristic considers the action-distance to the goal state by finding a (posssibly inadmissable) path of actions that result in the desired goal, but where actions can be performed even when their preconditions are not fulfilled. As a valid heuristic, it's guaranteed to find an optimal solution (provided existence) and in hour experiments lead to an almost \emph{fourfold} performance increase over H1/UCS\textemdash both terms of node expansions (P2: 1310 vs 4604, P3: 4443 vs 16963) and in time (P2: $4$ vs $14$, P3: $18$ vs $64$ seconds).
+	\item The \textbf{PG-Levelsum heuristic} on the other hand, considers each goal literal individually. The minimum level in the planning graph where a single goal literal can be fulfilled is known as its \emph{level cost}. The PG-Levelsum heuristic then returns the sum of the individual level costs.
+	Note that the level sum heuristic is technically inadmissible \cite[p. 382]{russell2009artificial}, as it disregards any possible \emph{positive} coupling effects - in this case the possibility to load multiple parcels onto a plane and fly a route that's shorter in total than considering each parcel separately. In fact, while this heuristic found optimal solutions to P1 and P2, its found solution to P3 in our implementation was indeed suboptimal, using 13 instead of 12 planning steps. (Analysis of this path revealed, that a plane indeed went to its final destination to drop off a package, then circled back to another airport to pick up another cargo and returning to its final destination - instead of picking up that package "along the way".) However, it can be said that this heuristic resulted in significantly less node expansions than the other heuristics considered here, in fact another $95\%$ reduction over "ignore preconditions". However, these fewer node expansions did not result in time-performance speedups as constructing and searching the planning graph multiple times for each goal is quite computationally expensive. In fact, we observed on the order of $20X$ the time required as compared to the "ignore preconditions" heuristic.
+\end{enumerate}
+
+For detailed results, the reader is again referred to Tables \ref{table-performance1}, \ref{table-performance2} and \ref{table-performance 3}. In conclusion we observe that for this problem class, the "ignore preconditions" heuristic shows the best performance: A considerable speedup vs nonheuristic methods such as BFS/UCS while still yielding optimal solutions. While not the case here, the PG-Levelsum heuristic may be promising, however, for problems where individual node expansions may be very expensive or prohibitive.
 
 % \nocite{*}
 %\bibliographystyle{apalike}%amsalpha
